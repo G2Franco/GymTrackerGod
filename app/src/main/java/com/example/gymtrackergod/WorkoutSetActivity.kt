@@ -3,6 +3,8 @@ package com.example.gymtrackergod
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputFilter
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -101,16 +103,25 @@ class WorkoutSetActivity : AppCompatActivity() {
 
     private fun saveSet() {
 
-        val weightText =
-            binding.etWeight.text.toString()
+        val weightText = binding.etWeight.text.toString()
+        val repsText = binding.etReps.text.toString()
 
-        val repsText =
-            binding.etReps.text.toString()
+// 1. Validación de campos vacíos
+        if (weightText.isBlank() || repsText.isBlank()) {
+            return
+        }
 
-        if (
-            weightText.isBlank() ||
-            repsText.isBlank()
-        ) {
+        val weightVal = weightText.toFloat()
+        val repsVal = repsText.toInt()
+
+// 2. Validación de límites máximos
+        if (weightVal > 500) {
+            binding.etWeight.error = "El peso no puede ser mayor a 500 KG"
+            return
+        }
+
+        if (repsVal > 30) {
+            binding.etReps.error = "Las repeticiones no pueden ser mayores a 30"
             return
         }
 
@@ -219,6 +230,4 @@ class WorkoutSetActivity : AppCompatActivity() {
                 "📊 Volumen: ${volume ?: 0f} kg"
         }
     }
-
-
 }

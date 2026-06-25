@@ -27,17 +27,6 @@
         android:text="📊 Volumen: 0 kg"
         android:textSize="16sp"
         android:layout_marginBottom="16dp"/>
-    <Button
-        android:id="@+id/btnHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ver Historial"/>
-    <Button
-        android:id="@+id/btnStatistics"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ver Estadísticas"/>
-
     <EditText
         android:id="@+id/etWeight"
         android:layout_width="match_parent"
@@ -57,6 +46,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Agregar Serie"/>
+    <Button
+        android:id="@+id/btnStatistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ver Estadísticas"/>
+    <Button
+        android:layout_gravity="center"
+        android:id="@+id/btnHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ver Historial"/>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvSets"
