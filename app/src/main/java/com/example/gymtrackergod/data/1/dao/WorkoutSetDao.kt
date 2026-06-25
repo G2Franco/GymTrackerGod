@@ -88,4 +88,13 @@ WHERE exerciseId = :exerciseId
     suspend fun getLastWorkoutDate(
         exerciseId: Int
     ): Long?
+    @Query("""
+    SELECT *
+    FROM workout_set
+    WHERE exerciseId = :exerciseId
+    ORDER BY date ASC
+""")
+    suspend fun getAllSets(
+        exerciseId: Int
+    ): List<WorkoutSet>
 }
