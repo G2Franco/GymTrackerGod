@@ -38,9 +38,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         val workoutDays = listOf(
-            WorkoutDay("Push", "💪"),
-            WorkoutDay("Pull", "🔥"),
-            WorkoutDay("Legs", "🦵")
+            WorkoutDay("Pecho", "🔥"),
+            WorkoutDay("Espalda", "🏋️‍♂️"),
+            WorkoutDay("Pierna", "🦵"),
+            WorkoutDay("Hombro","💪" ),
+            WorkoutDay("Biceps", "💪"),
+            WorkoutDay("Triceps", "💪"),
         )
 
         binding.rvWorkoutDays.layoutManager =

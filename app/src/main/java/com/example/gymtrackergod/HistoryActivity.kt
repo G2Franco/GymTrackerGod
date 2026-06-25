@@ -60,10 +60,7 @@ class HistoryActivity : AppCompatActivity() {
 
             val grouped =
                 sets.groupBy {
-
-                    formatter.format(
-                        Date(it.date)
-                    )
+                    it.sessionId
                 }
 
             val historyItems =
@@ -82,8 +79,11 @@ class HistoryActivity : AppCompatActivity() {
                     val totalSets =
                         entry.value.size
 
+                    val firstSet = entry.value.first()
                     HistoryItem(
-                        date = entry.key,
+                        date = formatter.format(
+                            Date(firstSet.date)
+                        ),
                         maxWeight = maxWeight,
                         volume = volume,
                         totalSets = totalSets,

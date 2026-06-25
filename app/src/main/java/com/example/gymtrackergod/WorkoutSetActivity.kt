@@ -17,6 +17,7 @@ import com.example.gymtrackergod.data.`1`.database.DatabaseProvider
 import com.example.gymtrackergod.data.`1`.entity.WorkoutSet
 import com.example.gymtrackergod.databinding.ActivityWorkoutSetBinding
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class WorkoutSetActivity : AppCompatActivity() {
 
@@ -24,6 +25,7 @@ class WorkoutSetActivity : AppCompatActivity() {
 
     private var exerciseId = 0
     private var exerciseName = ""
+    private var sessionId = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +40,7 @@ class WorkoutSetActivity : AppCompatActivity() {
 
         exerciseName =
             intent.getStringExtra("EXERCISE_NAME") ?: ""
+        sessionId = System.currentTimeMillis()
 
         binding.txtExerciseName.text =
             exerciseName
@@ -130,7 +133,8 @@ class WorkoutSetActivity : AppCompatActivity() {
                 exerciseId = exerciseId,
                 weight = weightText.toFloat(),
                 reps = repsText.toInt(),
-                date = System.currentTimeMillis()
+                date = System.currentTimeMillis(),
+                sessionId = sessionId
             )
 
         lifecycleScope.launch {
@@ -228,6 +232,53 @@ class WorkoutSetActivity : AppCompatActivity() {
 
             binding.txtVolume.text =
                 "📊 Volumen: ${volume ?: 0f} kg"
+        }
+    }
+    private fun loadLastWorkout() {
+
+        lifecycleScope.launch {
+
+            val dao =
+                DatabaseProvider.getDatabase(this@WorkoutSetActivity)
+                    .workoutSetDao()
+
+            val lastDate =
+                dao.getLastWorkoutDate(exerciseId)
+                    ?: return@launch
+
+            val calendar =
+                Calendar.getInstance()
+
+            calendar.timeInMillis = lastDate
+
+            calendar.set(Calendar.HOUR_OF_DAY, 0)
+            calendar.set(Calendar.MINUTE, 0)
+            calendar.set(Calendar.SECOND, 0)
+            calendar.set(Calendar.MILLISECOND, 0)
+
+            val startDay =
+                calendar.timeInMillis
+
+            val workout =
+                dao.getWorkoutAfterDate(
+                    exerciseId,
+                    startDay
+                )
+
+            val text =
+                buildString {
+
+                    append("🏋 Última sesión\n\n")
+
+                    workout.forEachIndexed { index, set ->
+
+                        append(
+                            "Serie ${index + 1}: ${set.weight} kg x ${set.reps}\n"
+                        )
+                    }
+                }
+
+            binding.txtLastWorkout.text = text
         }
     }
 }

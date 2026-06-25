@@ -92,9 +92,40 @@ WHERE exerciseId = :exerciseId
     SELECT *
     FROM workout_set
     WHERE exerciseId = :exerciseId
+    AND date >= :start
+    ORDER BY id ASC
+""")
+    suspend fun getWorkoutAfterDate(
+        exerciseId: Int,
+        start: Long
+    ): List<WorkoutSet>
+    @Query("""
+    SELECT *
+    FROM workout_set
+    WHERE exerciseId = :exerciseId
     ORDER BY date ASC
 """)
     suspend fun getAllSets(
         exerciseId: Int
     ): List<WorkoutSet>
+    @Query("""
+SELECT DISTINCT sessionId
+FROM workout_set
+WHERE exerciseId = :exerciseId
+ORDER BY sessionId DESC
+""")
+    suspend fun getSessions(
+        exerciseId: Int
+    ): List<Long>
+
+    @Query("""
+SELECT *
+FROM workout_set
+WHERE sessionId = :sessionId
+ORDER BY id ASC
+""")
+    suspend fun getWorkoutBySession(
+        sessionId: Long
+    ): List<WorkoutSet>
+
 }
