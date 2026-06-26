@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymtrackergod.databinding.ItemHistoryBinding
-import com.example.gymtrackergod.model.HistoryItem
+import com.example.gymtrackergod.ui.model.HistoryItem
 
 class HistoryAdapter(
     private val items: List<HistoryItem>

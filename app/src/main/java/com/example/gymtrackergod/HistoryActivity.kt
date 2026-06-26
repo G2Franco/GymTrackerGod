@@ -1,16 +1,13 @@
 package com.example.gymtrackergod
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gymtrackergod.adapter.HistoryAdapter
 import com.example.gymtrackergod.data.`1`.database.DatabaseProvider
 import com.example.gymtrackergod.databinding.ActivityHistoryBinding
-import com.example.gymtrackergod.model.HistoryItem
+import com.example.gymtrackergod.ui.model.HistoryItem
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date

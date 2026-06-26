@@ -1,4 +1,4 @@
-package com.example.gymtrackergod.model
+package com.example.gymtrackergod.ui.model
 
 data class WorkoutDay(
     val name: String,

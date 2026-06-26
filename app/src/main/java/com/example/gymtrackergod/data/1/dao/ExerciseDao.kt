@@ -17,6 +17,17 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercise WHERE day = :day")
     suspend fun getExercisesByDay(day: String): List<Exercise>
 
-    @Query("SELECT COUNT(*) FROM exercise")
-    suspend fun getCount(): Int
+
+    @Query("""
+SELECT *
+FROM exercise
+WHERE day IN (:muscles)
+ORDER BY day, name
+""")
+    suspend fun getExercisesByMuscles(
+        muscles: List<String>
+    ): List<Exercise>
+
+
+
 }

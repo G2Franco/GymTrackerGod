@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.example.gymtrackergod.data.`1`.entity.Exercise
 import com.example.gymtrackergod.data.`1`.entity.WorkoutSet
 
 
@@ -127,5 +128,15 @@ ORDER BY id ASC
     suspend fun getWorkoutBySession(
         sessionId: Long
     ): List<WorkoutSet>
+
+    @Query("""
+SELECT *
+FROM exercise
+WHERE day IN (:muscles)
+ORDER BY day, name
+""")
+    suspend fun getExercisesByMuscles(
+        muscles: List<String>
+    ): List<Exercise>
 
 }

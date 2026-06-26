@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymtrackergod.databinding.ItemWorkoutDayBinding
-import com.example.gymtrackergod.model.WorkoutDay
+import com.example.gymtrackergod.ui.model.WorkoutDay
 
 class WorkoutDayAdapter(
     private val workoutDays: List<WorkoutDay>,
