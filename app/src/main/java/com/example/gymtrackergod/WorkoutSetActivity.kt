@@ -128,29 +128,29 @@ class WorkoutSetActivity : AppCompatActivity() {
             return
         }
 
-        val workoutSet =
-            WorkoutSet(
-                exerciseId = exerciseId,
-                weight = weightText.toFloat(),
-                reps = repsText.toInt(),
-                date = System.currentTimeMillis(),
-                sessionId = sessionId
-            )
+//        val workoutSet =
+//            WorkoutSet(
+//                exerciseId = exerciseId,
+//                weight = weightText.toFloat(),
+//                reps = repsText.toInt(),
+//                date = System.currentTimeMillis(),
+//            //    sessionId = sessionId
+//            )
 
-        lifecycleScope.launch {
-
-            DatabaseProvider
-                .getDatabase(this@WorkoutSetActivity)
-                .workoutSetDao()
-                .insert(workoutSet)
-
-            binding.etWeight.text?.clear()
-            binding.etReps.text?.clear()
-
-            loadHistory()
-            loadPR()
-            loadVolume()
-        }
+//        lifecycleScope.launch {
+//
+//            DatabaseProvider
+//                .getDatabase(this@WorkoutSetActivity)
+//                .workoutSetDao()
+//                .insert(workoutSet)
+//
+//            binding.etWeight.text?.clear()
+//            binding.etReps.text?.clear()
+//
+//            loadHistory()
+//            loadPR()
+//            loadVolume()
+//        }
     }
 
     private fun loadHistory() {

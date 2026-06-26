@@ -14,6 +14,12 @@ interface ExerciseDao {
     @Insert
     suspend fun insertAll(exercises: List<Exercise>)
 
+    @Query("SELECT COUNT(*) FROM exercise")
+    suspend fun count(): Int
+
+    @Query("SELECT * FROM exercise")
+    suspend fun getAll(): List<Exercise>
+
     @Query("SELECT * FROM exercise WHERE day = :day")
     suspend fun getExercisesByDay(day: String): List<Exercise>
 

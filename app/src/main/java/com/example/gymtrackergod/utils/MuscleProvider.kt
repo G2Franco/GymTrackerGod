@@ -12,9 +12,9 @@ object MuscleProvider {
 
         Muscle("Hombro"),
 
-        Muscle("Bíceps"),
+        Muscle("Biceps"),
 
-        Muscle("Tríceps"),
+        Muscle("Triceps"),
 
         Muscle("Pierna")
     )

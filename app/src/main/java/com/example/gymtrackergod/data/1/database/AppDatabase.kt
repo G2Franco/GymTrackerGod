@@ -17,7 +17,7 @@ import com.example.gymtrackergod.data.`1`.entity.WorkoutSession
         WorkoutSession::class
 
     ],
-    version = 6
+    version = 7
 )
 abstract class AppDatabase : RoomDatabase() {
 
