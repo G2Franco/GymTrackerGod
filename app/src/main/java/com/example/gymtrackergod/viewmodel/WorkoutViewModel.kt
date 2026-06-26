@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.example.gymtrackergod.data.`1`.entity.Exercise
 import com.example.gymtrackergod.ui.model.ExerciseSelection
 import com.example.gymtrackergod.ui.model.Muscle
+import com.example.gymtrackergod.ui.model.WorkoutExercise
+import com.example.gymtrackergod.ui.model.WorkoutSetUi
 import com.example.gymtrackergod.utils.MuscleProvider
 
 class WorkoutViewModel : ViewModel() {
@@ -84,6 +86,142 @@ class WorkoutViewModel : ViewModel() {
                 }
 
             }
+
+    }
+    fun getSelectedExercises(): List<Exercise> {
+
+        return _exerciseSelections.value
+            ?.filter { it.selected }
+            ?.map { it.exercise }
+            ?: emptyList()
+
+    }
+    fun canStartWorkout(): Boolean {
+
+        return _exerciseSelections.value
+            ?.any { it.selected }
+            ?: false
+
+    }
+    private val _workoutExercises =
+        MutableLiveData<List<WorkoutExercise>>()
+
+    val workoutExercises: LiveData<List<WorkoutExercise>>
+        get() = _workoutExercises
+
+    fun startWorkout() {
+
+        val exercises = getSelectedExercises()
+
+        _workoutExercises.value = exercises.map {
+
+            WorkoutExercise(
+
+                exercise = it,
+
+                sets = mutableListOf(
+                    WorkoutSetUi()
+                )
+
+            )
+
+        }
+
+    }
+    fun addSet(exerciseId: Int) {
+
+        val updated = _workoutExercises.value?.map { workout ->
+
+            if (workout.exercise.id == exerciseId) {
+
+                val newSets = workout.sets.toMutableList()
+
+                newSets.add(
+                    WorkoutSetUi()
+                )
+
+                workout.copy(
+                    sets = newSets
+                )
+
+            } else {
+
+                workout
+
+            }
+
+        }
+
+        _workoutExercises.value = updated
+
+    }
+    fun removeSet(
+        exerciseId: Int,
+        index: Int
+    ) {
+
+        val updated = _workoutExercises.value?.map { workout ->
+
+            if (workout.exercise.id == exerciseId) {
+
+                val newSets =
+                    workout.sets.toMutableList()
+
+                if (index in newSets.indices) {
+
+                    newSets.removeAt(index)
+
+                }
+
+                workout.copy(
+                    sets = newSets
+                )
+
+            } else {
+
+                workout
+
+            }
+
+        }
+
+        _workoutExercises.value = updated
+
+    }
+    fun completeExercise(
+        exerciseId: Int
+    ) {
+
+        _workoutExercises.value =
+            _workoutExercises.value?.map {
+
+                if (it.exercise.id == exerciseId) {
+
+                    it.copy(
+                        completed = true
+                    )
+
+                } else {
+
+                    it
+
+                }
+
+            }
+
+    }
+
+    fun getProgress(): Int {
+
+        val exercises =
+            _workoutExercises.value ?: return 0
+
+        if (exercises.isEmpty()) return 0
+
+        val completed =
+            exercises.count { it.completed }
+
+        return completed * 100 / exercises.size
 
     }
 

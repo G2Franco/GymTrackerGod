@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.gymtrackergod.R
 import com.example.gymtrackergod.adapter.ExerciseSelectionAdapter
 import com.example.gymtrackergod.data.`1`.database.DatabaseProvider
 import com.example.gymtrackergod.data.`1`.repository.ExerciseRepository
@@ -76,6 +77,19 @@ class SelectExercisesFragment : Fragment() {
         ) {
 
             adapter.submitList(it)
+
+        }
+        binding.btnStartWorkout.setOnClickListener {
+            if (!workoutViewModel.canStartWorkout()) {
+                return@setOnClickListener
+            }
+            parentFragmentManager.beginTransaction()
+                .replace(
+                    R.id.fragmentContainer,
+                    WorkoutFragment()
+                )
+                .addToBackStack(null)
+                .commit()
 
         }
 
