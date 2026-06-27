@@ -224,5 +224,44 @@ class WorkoutViewModel : ViewModel() {
         return completed * 100 / exercises.size
 
     }
+    fun saveSet(
+        exerciseId: Int,
+        index: Int,
+        weight: Float,
+        reps: Int
+    ) {
+
+        val updated = _workoutExercises.value?.map { workout ->
+
+            if (workout.exercise.id == exerciseId) {
+
+                val sets = workout.sets.toMutableList()
+
+                if (index in sets.indices) {
+
+                    sets[index] = sets[index].copy(
+                        weight = weight,
+                        reps = reps,
+                        saved = true
+                    )
+
+                }
+
+                workout.copy(
+                    sets = sets
+                )
+
+            } else {
+
+                workout
+
+            }
+
+        }
+
+        _workoutExercises.value = updated
+
+    }
+
 
 }

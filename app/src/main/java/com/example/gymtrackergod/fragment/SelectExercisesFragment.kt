@@ -93,6 +93,7 @@ class SelectExercisesFragment : Fragment() {
 
         }
 
+
         return binding.root
     }
 
