@@ -36,13 +36,10 @@ class WorkoutFragment : Fragment() {
         workoutViewModel =
             ViewModelProvider(requireActivity())[WorkoutViewModel::class.java]
 
-        binding.rvWorkout.layoutManager =
-            LinearLayoutManager(requireContext())
-        workoutViewModel.workoutExercises.observe(viewLifecycleOwner) { workout ->
+
+        workoutViewModel.workoutExercises.observe(viewLifecycleOwner) { Workout ->
 
             adapter = WorkoutAdapter(
-
-                exercises = workout,
 
                 onAddSet = { exercise ->
 
@@ -69,8 +66,17 @@ class WorkoutFragment : Fragment() {
                 }
 
             )
-
+            binding.rvWorkout.layoutManager =
+                LinearLayoutManager(requireContext())
             binding.rvWorkout.adapter = adapter
+
+            workoutViewModel.workoutExercises.observe(viewLifecycleOwner) { workout ->
+
+                adapter.submitExercises(workout)
+
+            }
+
+
 
         }
         return binding.root

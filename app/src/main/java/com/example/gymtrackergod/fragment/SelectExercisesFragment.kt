@@ -80,17 +80,11 @@ class SelectExercisesFragment : Fragment() {
 
         }
         binding.btnStartWorkout.setOnClickListener {
-            if (!workoutViewModel.canStartWorkout()) {
-                return@setOnClickListener
-            }
+            workoutViewModel.startWorkout() // ✅ Primero pobla el LiveData
             parentFragmentManager.beginTransaction()
-                .replace(
-                    R.id.fragmentContainer,
-                    WorkoutFragment()
-                )
+                .replace(R.id.fragmentContainer, WorkoutFragment())
                 .addToBackStack(null)
                 .commit()
-
         }
 
 

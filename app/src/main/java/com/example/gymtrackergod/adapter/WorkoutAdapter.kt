@@ -7,16 +7,16 @@ import com.example.gymtrackergod.ui.model.WorkoutExercise
 import com.example.gymtrackergod.ui.model.WorkoutSetUi
 import com.example.gymtrackergod.ui.model.custom.WorkoutExerciseCard
 
+
 class WorkoutAdapter(
 
-    private val exercises: List<WorkoutExercise>,
     private val onAddSet: (Exercise) -> Unit,
     private val onDeleteSet: (Exercise, Int) -> Unit,
-    private val onSaveExercise:
-        (Exercise, List<WorkoutSetUi>) -> Unit
-
+    private val onSaveExercise: (Exercise, List<WorkoutSetUi>) -> Unit
 
 ) : RecyclerView.Adapter<WorkoutAdapter.ViewHolder>() {
+
+    private val exercises = mutableListOf<WorkoutExercise>()
 
     inner class ViewHolder(
 
@@ -29,12 +29,8 @@ class WorkoutAdapter(
             card.setListeners(
 
                 onAddSet,
-
                 onDeleteSet,
-
                 onSaveExercise
-
-
 
             )
 
@@ -50,9 +46,7 @@ class WorkoutAdapter(
     ): ViewHolder {
 
         return ViewHolder(
-
             WorkoutExerciseCard(parent.context)
-
         )
 
     }
@@ -63,15 +57,23 @@ class WorkoutAdapter(
     ) {
 
         holder.bind(
-
             exercises[position]
-
         )
 
     }
 
-    override fun getItemCount() =
-        exercises.size
+    override fun getItemCount(): Int = exercises.size
 
+    fun submitExercises(newExercises: List<WorkoutExercise>) {
+
+        exercises.clear()
+
+        exercises.addAll(newExercises)
+
+        notifyDataSetChanged()
+
+    }
 
 }
+
+
