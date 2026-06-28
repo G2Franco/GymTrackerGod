@@ -8,6 +8,7 @@ import com.example.gymtrackergod.data.`1`.entity.Exercise
 import com.example.gymtrackergod.databinding.ViewWorkoutExerciseCardBinding
 import com.example.gymtrackergod.databinding.ViewWorkoutSetBinding
 import com.example.gymtrackergod.ui.model.WorkoutExercise
+import com.example.gymtrackergod.ui.model.WorkoutSetUi
 
 
 class WorkoutExerciseCard @JvmOverloads constructor(
@@ -24,6 +25,8 @@ class WorkoutExerciseCard @JvmOverloads constructor(
     private var onFinishExercise: ((Exercise) -> Unit)? = null
     private lateinit var workoutExercise: WorkoutExercise
 
+    private var onSaveExercise:
+            ((Exercise, List<WorkoutSetUi>) -> Unit)? = null
 
     private val binding =
         ViewWorkoutExerciseCardBinding.inflate(
@@ -51,8 +54,12 @@ class WorkoutExerciseCard @JvmOverloads constructor(
 
         binding.btnFinishExercise.setOnClickListener {
 
-            onFinishExercise?.invoke(
-                workoutExercise.exercise
+            onSaveExercise?.invoke(
+
+                workoutExercise.exercise,
+
+                getWorkoutSets()
+
             )
 
         }
@@ -103,15 +110,53 @@ class WorkoutExerciseCard @JvmOverloads constructor(
 
         onDeleteSet: (Exercise, Int) -> Unit,
 
-        onFinishExercise: (Exercise) -> Unit,
+        onSaveExercise: (Exercise, List<WorkoutSetUi>) -> Unit
 
 
     ) {
 
         this.onAddSet = onAddSet
         this.onDeleteSet = onDeleteSet
-        this.onFinishExercise = onFinishExercise
+        this.onSaveExercise = onSaveExercise
+    }
+    private fun getWorkoutSets(): List<WorkoutSetUi> {
 
+        val sets = mutableListOf<WorkoutSetUi>()
+
+        for (i in 0 until binding.layoutSets.childCount) {
+
+            val view = binding.layoutSets.getChildAt(i)
+
+            val setBinding =
+                ViewWorkoutSetBinding.bind(view)
+
+            val weight =
+                setBinding.edtWeight.text
+                    .toString()
+                    .toFloatOrNull() ?: 0f
+
+            val reps =
+                setBinding.edtReps.text
+                    .toString()
+                    .toIntOrNull() ?: 0
+
+            sets.add(
+
+                WorkoutSetUi(
+
+                    weight = weight,
+
+                    reps = reps,
+
+                    saved = true
+
+                )
+
+            )
+
+        }
+
+        return sets
 
     }
 

@@ -262,6 +262,31 @@ class WorkoutViewModel : ViewModel() {
         _workoutExercises.value = updated
 
     }
+    fun saveExercise(
+        exerciseId: Int,
+        sets: List<WorkoutSetUi>
+    ) {
+
+        val updated = _workoutExercises.value?.map { workout ->
+
+            if (workout.exercise.id == exerciseId) {
+
+                workout.copy(
+                    sets = sets.toMutableList(),
+                    completed = true
+                )
+
+            } else {
+
+                workout
+
+            }
+
+        }
+
+        _workoutExercises.value = updated
+
+    }
 
 
 }

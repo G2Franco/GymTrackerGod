@@ -59,10 +59,11 @@ class WorkoutFragment : Fragment() {
 
                 },
 
-                onFinishExercise = { exercise ->
+                onSaveExercise = { exercise, sets ->
 
-                    workoutViewModel.completeExercise(
-                        exercise.id
+                    workoutViewModel.saveExercise(
+                        exercise.id,
+                        sets
                     )
 
                 }

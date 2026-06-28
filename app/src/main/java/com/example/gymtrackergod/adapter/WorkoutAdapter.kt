@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymtrackergod.data.`1`.entity.Exercise
 import com.example.gymtrackergod.ui.model.WorkoutExercise
+import com.example.gymtrackergod.ui.model.WorkoutSetUi
 import com.example.gymtrackergod.ui.model.custom.WorkoutExerciseCard
 
 class WorkoutAdapter(
@@ -11,7 +12,8 @@ class WorkoutAdapter(
     private val exercises: List<WorkoutExercise>,
     private val onAddSet: (Exercise) -> Unit,
     private val onDeleteSet: (Exercise, Int) -> Unit,
-    private val onFinishExercise: (Exercise) -> Unit
+    private val onSaveExercise:
+        (Exercise, List<WorkoutSetUi>) -> Unit
 
 
 ) : RecyclerView.Adapter<WorkoutAdapter.ViewHolder>() {
@@ -30,7 +32,7 @@ class WorkoutAdapter(
 
                 onDeleteSet,
 
-                onFinishExercise,
+                onSaveExercise
 
 
 
