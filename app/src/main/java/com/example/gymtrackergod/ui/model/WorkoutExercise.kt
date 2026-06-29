@@ -9,6 +9,6 @@ data class WorkoutExercise(
 
     val sets: MutableList<WorkoutSetUi> = mutableListOf(),
 
-    var completed: Boolean = false
+    val saved: Boolean = false
 
 )

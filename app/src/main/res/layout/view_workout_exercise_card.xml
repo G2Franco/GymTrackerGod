@@ -30,13 +30,12 @@
             android:layout_marginTop="4dp"
             android:text="Sin historial"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvSets"
+        <LinearLayout
+            android:id="@+id/layoutSets"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"/>
+            android:orientation="vertical"/>
 
         <com.google.android.material.button.MaterialButton
             android:layout_gravity="center"

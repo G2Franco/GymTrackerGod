@@ -198,7 +198,7 @@ class WorkoutViewModel : ViewModel() {
                 if (it.exercise.id == exerciseId) {
 
                     it.copy(
-                        completed = true
+                        saved = true
                     )
 
                 } else {
@@ -219,7 +219,7 @@ class WorkoutViewModel : ViewModel() {
         if (exercises.isEmpty()) return 0
 
         val completed =
-            exercises.count { it.completed }
+            exercises.count { it.saved }
 
         return completed * 100 / exercises.size
 
@@ -267,26 +267,42 @@ class WorkoutViewModel : ViewModel() {
         sets: List<WorkoutSetUi>
     ) {
 
-        val updated = _workoutExercises.value?.map { workout ->
+        _workoutExercises.value =
+            _workoutExercises.value?.map { workout ->
 
-            if (workout.exercise.id == exerciseId) {
+                if (workout.exercise.id == exerciseId) {
 
-                workout.copy(
-                    sets = sets.toMutableList(),
-                    completed = true
-                )
+                    workout.copy(
 
-            } else {
+                        sets = sets.toMutableList(),
 
-                workout
+                        saved = true
+
+                    )
+
+                } else {
+
+                    workout
+
+                }
 
             }
 
-        }
+    }
 
-        _workoutExercises.value = updated
+
+    fun canFinishWorkout(): Boolean {
+
+        val exercises =
+            _workoutExercises.value ?: return false
+
+        return exercises.isNotEmpty() &&
+                exercises.all { it.saved }
 
     }
+
+
+
 
 
 }

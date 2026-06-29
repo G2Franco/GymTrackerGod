@@ -24,32 +24,39 @@ class WorkoutSetAdapter(
         private val binding: ViewWorkoutSetBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
+
         fun bind(set: WorkoutSetUi) {
 
             binding.txtSet.text = "Serie ${bindingAdapterPosition + 1}"
 
-            binding.edtWeight.setText(
+            // Solo asignar el texto si realmente cambió
+            val weightText =
                 if (set.weight == 0f) "" else set.weight.toString()
-            )
 
-            binding.edtReps.setText(
+            if (binding.edtWeight.text.toString() != weightText) {
+                binding.edtWeight.setText(weightText)
+            }
+
+            val repsText =
                 if (set.reps == 0) "" else set.reps.toString()
-            )
+
+            if (binding.edtReps.text.toString() != repsText) {
+                binding.edtReps.setText(repsText)
+            }
+
+            // Elimina listeners anteriores
+            binding.edtWeight.addTextChangedListener(null)
+            binding.edtReps.addTextChangedListener(null)
 
             binding.edtWeight.doAfterTextChanged {
 
                 val position = bindingAdapterPosition
 
-                if (position != RecyclerView.NO_POSITION) {
+                if (position == RecyclerView.NO_POSITION) return@doAfterTextChanged
 
-                    sets[position] = sets[position].copy(
-
-                        weight = it.toString()
-                            .toFloatOrNull() ?: 0f
-
-                    )
-
-                }
+                sets[position] = sets[position].copy(
+                    weight = it.toString().toFloatOrNull() ?: 0f
+                )
 
             }
 
@@ -57,15 +64,20 @@ class WorkoutSetAdapter(
 
                 val position = bindingAdapterPosition
 
+                if (position == RecyclerView.NO_POSITION) return@doAfterTextChanged
+
+                sets[position] = sets[position].copy(
+                    reps = it.toString().toIntOrNull() ?: 0
+                )
+
+            }
+
+            binding.btnDelete.setOnClickListener {
+
+                val position = bindingAdapterPosition
+
                 if (position != RecyclerView.NO_POSITION) {
-
-                    sets[position] = sets[position].copy(
-
-                        reps = it.toString()
-                            .toIntOrNull() ?: 0
-
-                    )
-
+                    onDeleteSet(position)
                 }
 
             }
@@ -74,7 +86,7 @@ class WorkoutSetAdapter(
 
     }
 
-    override fun onCreateViewHolder(
+        override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
@@ -101,6 +113,8 @@ class WorkoutSetAdapter(
     override fun getItemCount(): Int = sets.size
 
     fun updateSets(newSets: List<WorkoutSetUi>) {
+
+        if (sets == newSets) return
 
         sets.clear()
         sets.addAll(newSets)

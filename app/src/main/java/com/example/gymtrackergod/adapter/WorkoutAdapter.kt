@@ -1,6 +1,8 @@
 package com.example.gymtrackergod.adapter
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymtrackergod.data.`1`.entity.Exercise
 import com.example.gymtrackergod.ui.model.WorkoutExercise
@@ -14,17 +16,13 @@ class WorkoutAdapter(
     private val onDeleteSet: (Exercise, Int) -> Unit,
     private val onSaveExercise: (Exercise, List<WorkoutSetUi>) -> Unit
 
-) : RecyclerView.Adapter<WorkoutAdapter.ViewHolder>() {
-
-    private val exercises = mutableListOf<WorkoutExercise>()
+) : ListAdapter<WorkoutExercise, WorkoutAdapter.ViewHolder>(DiffCallback()) {
 
     inner class ViewHolder(
-
         private val card: WorkoutExerciseCard
-
     ) : RecyclerView.ViewHolder(card) {
 
-        fun bind(workoutExercise: WorkoutExercise) {
+        fun bind(item: WorkoutExercise) {
 
             card.setListeners(
 
@@ -34,7 +32,7 @@ class WorkoutAdapter(
 
             )
 
-            card.bind(workoutExercise)
+            card.bind(item)
 
         }
 
@@ -56,21 +54,29 @@ class WorkoutAdapter(
         position: Int
     ) {
 
-        holder.bind(
-            exercises[position]
-        )
+        holder.bind(getItem(position))
 
     }
 
-    override fun getItemCount(): Int = exercises.size
+    class DiffCallback : DiffUtil.ItemCallback<WorkoutExercise>() {
 
-    fun submitExercises(newExercises: List<WorkoutExercise>) {
+        override fun areItemsTheSame(
+            oldItem: WorkoutExercise,
+            newItem: WorkoutExercise
+        ): Boolean {
 
-        exercises.clear()
+            return oldItem.exercise.id == newItem.exercise.id
 
-        exercises.addAll(newExercises)
+        }
 
-        notifyDataSetChanged()
+        override fun areContentsTheSame(
+            oldItem: WorkoutExercise,
+            newItem: WorkoutExercise
+        ): Boolean {
+
+            return oldItem == newItem
+
+        }
 
     }
 

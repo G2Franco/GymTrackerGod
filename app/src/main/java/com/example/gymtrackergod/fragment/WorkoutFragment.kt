@@ -11,13 +11,13 @@ import com.example.gymtrackergod.adapter.WorkoutAdapter
 import com.example.gymtrackergod.databinding.FragmentWorkoutBinding
 import com.example.gymtrackergod.viewmodel.WorkoutViewModel
 
+
 class WorkoutFragment : Fragment() {
 
     private var _binding: FragmentWorkoutBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var workoutViewModel: WorkoutViewModel
-
     private lateinit var adapter: WorkoutAdapter
 
     override fun onCreateView(
@@ -26,64 +26,62 @@ class WorkoutFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding =
-            FragmentWorkoutBinding.inflate(
-                inflater,
-                container,
-                false
-            )
+        _binding = FragmentWorkoutBinding.inflate(
+            inflater,
+            container,
+            false
+        )
 
         workoutViewModel =
             ViewModelProvider(requireActivity())[WorkoutViewModel::class.java]
 
+        adapter = WorkoutAdapter(
 
-        workoutViewModel.workoutExercises.observe(viewLifecycleOwner) { Workout ->
+            onAddSet = { exercise ->
 
-            adapter = WorkoutAdapter(
+                workoutViewModel.addSet(exercise.id)
 
-                onAddSet = { exercise ->
+            },
 
-                    workoutViewModel.addSet(exercise.id)
+            onDeleteSet = { exercise, index ->
 
-                },
+                workoutViewModel.removeSet(
+                    exercise.id,
+                    index
+                )
 
-                onDeleteSet = { exercise, index ->
+            },
 
-                    workoutViewModel.removeSet(
-                        exercise.id,
-                        index
-                    )
+            onSaveExercise = { exercise, sets ->
 
-                },
-
-                onSaveExercise = { exercise, sets ->
-
-                    workoutViewModel.saveExercise(
-                        exercise.id,
-                        sets
-                    )
-
-                }
-
-            )
-            binding.rvWorkout.layoutManager =
-                LinearLayoutManager(requireContext())
-            binding.rvWorkout.adapter = adapter
-
-            workoutViewModel.workoutExercises.observe(viewLifecycleOwner) { workout ->
-
-                adapter.submitExercises(workout)
+                workoutViewModel.saveExercise(
+                    exercise.id,
+                    sets
+                )
 
             }
 
+        )
 
+        binding.rvWorkout.layoutManager =
+            LinearLayoutManager(requireContext())
+
+        binding.rvWorkout.adapter = adapter
+
+        workoutViewModel.workoutExercises.observe(viewLifecycleOwner) { workout ->
+
+            adapter.submitList(workout)
+            binding.btnFinishWorkout.isEnabled = workoutViewModel.canFinishWorkout()
 
         }
+
         return binding.root
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }
