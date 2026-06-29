@@ -25,5 +25,4 @@ interface WorkoutSessionDao {
         ORDER BY startTime DESC
     """)
     suspend fun getAll(): List<WorkoutSession>
-
 }

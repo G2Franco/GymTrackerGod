@@ -5,9 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gymtrackergod.adapter.WorkoutAdapter
+import com.example.gymtrackergod.data.`1`.database.AppDatabase
+import com.example.gymtrackergod.data.`1`.database.DatabaseProvider
+import com.example.gymtrackergod.data.`1`.repository.WorkoutRepository
 import com.example.gymtrackergod.databinding.FragmentWorkoutBinding
 import com.example.gymtrackergod.viewmodel.WorkoutViewModel
 
@@ -34,6 +38,18 @@ class WorkoutFragment : Fragment() {
 
         workoutViewModel =
             ViewModelProvider(requireActivity())[WorkoutViewModel::class.java]
+
+
+        val db = DatabaseProvider.getDatabase(requireContext())
+
+        val repository = WorkoutRepository(
+            db.workoutSessionDao(),
+            db.workoutSetDao()
+        )
+
+        workoutViewModel.setRepository(repository)
+
+
 
         adapter = WorkoutAdapter(
 
@@ -74,6 +90,20 @@ class WorkoutFragment : Fragment() {
             binding.btnFinishWorkout.isEnabled = workoutViewModel.canFinishWorkout()
 
         }
+
+        binding.btnFinishWorkout.setOnClickListener {
+
+            workoutViewModel.finishWorkout()
+
+            Toast.makeText(
+                requireContext(),
+                "Entrenamiento guardado correctamente 💪",
+                Toast.LENGTH_SHORT
+            ).show()
+
+        }
+
+
 
         return binding.root
 

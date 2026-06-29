@@ -3,12 +3,16 @@ package com.example.gymtrackergod.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.gymtrackergod.data.`1`.entity.Exercise
+import com.example.gymtrackergod.data.`1`.entity.WorkoutSession
+import com.example.gymtrackergod.data.`1`.repository.WorkoutRepository
 import com.example.gymtrackergod.ui.model.ExerciseSelection
 import com.example.gymtrackergod.ui.model.Muscle
 import com.example.gymtrackergod.ui.model.WorkoutExercise
 import com.example.gymtrackergod.ui.model.WorkoutSetUi
 import com.example.gymtrackergod.utils.MuscleProvider
+import kotlinx.coroutines.launch
 
 class WorkoutViewModel : ViewModel() {
 
@@ -23,6 +27,43 @@ class WorkoutViewModel : ViewModel() {
 
     val selectedExercises: LiveData<List<Exercise>>
         get() = _selectedExercises
+
+    private lateinit var repository: WorkoutRepository
+
+    fun setRepository(repository: WorkoutRepository) {
+        this.repository = repository
+    }
+
+
+
+    fun finishWorkout() {
+
+        val exercises = _workoutExercises.value ?: return
+
+        viewModelScope.launch {
+
+            repository.saveWorkout(
+
+                WorkoutSession(
+
+                    startTime = System.currentTimeMillis(),
+
+                    endTime = System.currentTimeMillis(),
+
+                    workoutName = "Entrenamiento"
+
+                ),
+
+                exercises
+
+            )
+
+            _workoutExercises.postValue(emptyList())
+
+        }
+
+    }
+
 
     fun toggleMuscle(muscle: Muscle) {
 
@@ -300,6 +341,7 @@ class WorkoutViewModel : ViewModel() {
                 exercises.all { it.saved }
 
     }
+
 
 
 
