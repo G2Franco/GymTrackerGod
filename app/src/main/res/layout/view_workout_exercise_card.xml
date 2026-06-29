@@ -22,6 +22,14 @@
             android:text="Press Banca"
             android:textStyle="bold"
             android:textSize="22sp"/>
+        <TextView
+            android:id="@+id/txtSaved"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="✔ Ejercicio guardado"
+            android:textColor="#4CAF50"
+            android:textStyle="bold"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/txtLastWorkout"

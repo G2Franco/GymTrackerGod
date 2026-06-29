@@ -4,6 +4,7 @@ package com.example.gymtrackergod.ui.model.custom
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gymtrackergod.adapter.WorkoutSetAdapter
@@ -89,8 +90,32 @@ class WorkoutExerciseCard @JvmOverloads constructor(
 
         }
 
+        if (workoutExercise.saved) {
 
+            binding.txtSaved.visibility = View.VISIBLE
 
+            binding.btnFinishExercise.text =
+                "✔ Guardado"
+
+            binding.btnFinishExercise.isEnabled = false
+
+            binding.btnAddSet.isEnabled = false
+
+        } else {
+
+            binding.txtSaved.visibility = View.GONE
+
+            binding.btnFinishExercise.text =
+                "💾 Guardar ejercicio"
+
+            binding.btnFinishExercise.isEnabled = true
+
+            binding.btnAddSet.isEnabled = true
+
+        }
+        binding.txtLastWorkout.text =
+            workoutExercise.history.lastWorkout
+        
     }
 
     private fun addSetView(
