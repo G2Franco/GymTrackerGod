@@ -21,7 +21,7 @@ class WorkoutExerciseCard @JvmOverloads constructor(
 
 ) : LinearLayout(context, attrs) {
 
-    private var onAddSet: ((Exercise) -> Unit)? = null
+    private var onAddSet: ((Exercise, List<WorkoutSetUi>) -> Unit)? = null
 
     private var onDeleteSet: ((Exercise, Int) -> Unit)? = null
 
@@ -54,10 +54,15 @@ class WorkoutExerciseCard @JvmOverloads constructor(
 
         binding.btnAddSet.setOnClickListener {
 
-            onAddSet?.invoke(workoutExercise.exercise)
+            onAddSet?.invoke(
+
+                workoutExercise.exercise,
+
+                getWorkoutSets()
+
+            )
 
         }
-
         binding.btnFinishExercise.setOnClickListener {
 
             onSaveExercise?.invoke(
@@ -188,7 +193,8 @@ class WorkoutExerciseCard @JvmOverloads constructor(
 
     fun setListeners(
 
-        onAddSet: (Exercise) -> Unit,
+        onAddSet: (Exercise, List<WorkoutSetUi>) -> Unit,
+
 
         onDeleteSet: (Exercise, Int) -> Unit,
 

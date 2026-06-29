@@ -12,7 +12,7 @@ import com.example.gymtrackergod.ui.model.custom.WorkoutExerciseCard
 
 class WorkoutAdapter(
 
-    private val onAddSet: (Exercise) -> Unit,
+    private val onAddSet: (Exercise, List<WorkoutSetUi>) -> Unit,
     private val onDeleteSet: (Exercise, Int) -> Unit,
     private val onSaveExercise: (Exercise, List<WorkoutSetUi>) -> Unit
 

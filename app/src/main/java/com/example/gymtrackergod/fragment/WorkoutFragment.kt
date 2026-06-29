@@ -53,9 +53,15 @@ class WorkoutFragment : Fragment() {
 
         adapter = WorkoutAdapter(
 
-            onAddSet = { exercise ->
+            onAddSet = { exercise, sets ->
 
-                workoutViewModel.addSet(exercise.id)
+                workoutViewModel.addSet(
+
+                    exercise.id,
+
+                    sets
+
+                )
 
             },
 

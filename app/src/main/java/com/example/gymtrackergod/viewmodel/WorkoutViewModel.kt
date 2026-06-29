@@ -169,13 +169,19 @@ class WorkoutViewModel : ViewModel() {
         }
 
     }
-    fun addSet(exerciseId: Int) {
+    fun addSet(
+
+        exerciseId: Int,
+
+        currentSets: List<WorkoutSetUi>
+
+    ) {
 
         val updated = _workoutExercises.value?.map { workout ->
 
             if (workout.exercise.id == exerciseId) {
 
-                val newSets = workout.sets.toMutableList()
+                val newSets = currentSets.toMutableList()
 
                 newSets.add(
                     WorkoutSetUi()
