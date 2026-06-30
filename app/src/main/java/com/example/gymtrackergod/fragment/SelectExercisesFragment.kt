@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -80,11 +81,32 @@ class SelectExercisesFragment : Fragment() {
 
         }
         binding.btnStartWorkout.setOnClickListener {
-            workoutViewModel.startWorkout() // ✅ Primero pobla el LiveData
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, WorkoutFragment())
-                .addToBackStack(null)
-                .commit()
+
+            try {
+
+                workoutViewModel.startWorkout()
+                Toast.makeText(requireContext(), "1. startWorkout OK", Toast.LENGTH_SHORT).show()
+
+                val fragment = WorkoutFragment()
+                Toast.makeText(requireContext(), "2. Fragment creado", Toast.LENGTH_SHORT).show()
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, fragment)
+                    .addToBackStack(null)
+                    .commit()
+
+                Toast.makeText(requireContext(), "3. Commit realizado", Toast.LENGTH_SHORT).show()
+
+            } catch (e: Exception) {
+
+                e.printStackTrace()
+
+                Toast.makeText(
+                    requireContext(),
+                    e.javaClass.simpleName + ": " + e.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
 

@@ -34,9 +34,20 @@ class WorkoutViewModel : ViewModel() {
         this.repository = repository
     }
 
+    private val _progress = MutableLiveData(0)
+    val progress: LiveData<Int>
+        get() = _progress
+
+    private val _canFinishWorkout = MutableLiveData(false)
+    val canFinishWorkoutState: LiveData<Boolean>
+        get() = _canFinishWorkout
+
+
 
 
     fun finishWorkout() {
+
+        if (!::repository.isInitialized) return
 
         val exercises = _workoutExercises.value ?: return
 
@@ -59,6 +70,10 @@ class WorkoutViewModel : ViewModel() {
             )
 
             _workoutExercises.postValue(emptyList())
+
+            _progress.postValue(0)
+
+            _canFinishWorkout.postValue(false)
 
         }
 
@@ -168,27 +183,23 @@ class WorkoutViewModel : ViewModel() {
 
         }
 
+        updateProgress()
+        updateFinishState()
+
     }
     fun addSet(
-
         exerciseId: Int,
-
         currentSets: List<WorkoutSetUi>
-
     ) {
 
         val updated = _workoutExercises.value?.map { workout ->
 
             if (workout.exercise.id == exerciseId) {
 
-                val newSets = currentSets.toMutableList()
-
-                newSets.add(
-                    WorkoutSetUi()
-                )
-
                 workout.copy(
-                    sets = newSets
+                    sets = currentSets.toMutableList().apply {
+                        add(WorkoutSetUi())
+                    }
                 )
 
             } else {
@@ -211,13 +222,10 @@ class WorkoutViewModel : ViewModel() {
 
             if (workout.exercise.id == exerciseId) {
 
-                val newSets =
-                    workout.sets.toMutableList()
+                val newSets = workout.sets.toMutableList()
 
                 if (index in newSets.indices) {
-
                     newSets.removeAt(index)
-
                 }
 
                 workout.copy(
@@ -335,6 +343,9 @@ class WorkoutViewModel : ViewModel() {
 
             }
 
+        updateProgress()
+        updateFinishState()
+
     }
 
 
@@ -348,8 +359,17 @@ class WorkoutViewModel : ViewModel() {
 
     }
 
+    private fun updateProgress() {
 
+        _progress.value = getProgress()
 
+    }
+
+    private fun updateFinishState() {
+
+        _canFinishWorkout.value = canFinishWorkout()
+
+    }
 
 
 

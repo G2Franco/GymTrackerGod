@@ -14,6 +14,7 @@ import com.example.gymtrackergod.data.`1`.database.DatabaseProvider
 import com.example.gymtrackergod.data.`1`.repository.WorkoutRepository
 import com.example.gymtrackergod.databinding.FragmentWorkoutBinding
 import com.example.gymtrackergod.viewmodel.WorkoutViewModel
+import com.google.android.material.snackbar.Snackbar
 
 
 class WorkoutFragment : Fragment() {
@@ -81,6 +82,16 @@ class WorkoutFragment : Fragment() {
                     sets
                 )
 
+                Snackbar.make(
+
+                    binding.root,
+
+                    "✅ ${exercise.name} guardado",
+
+                    Snackbar.LENGTH_SHORT
+
+                ).show()
+
             }
 
         )
@@ -90,21 +101,50 @@ class WorkoutFragment : Fragment() {
 
         binding.rvWorkout.adapter = adapter
 
+        binding.btnFinishWorkout.isEnabled = false
         workoutViewModel.workoutExercises.observe(viewLifecycleOwner) { workout ->
 
             adapter.submitList(workout)
             binding.btnFinishWorkout.isEnabled = workoutViewModel.canFinishWorkout()
 
         }
+        workoutViewModel.canFinishWorkoutState.observe(viewLifecycleOwner) { enabled ->
+
+            binding.btnFinishWorkout.isEnabled = enabled
+
+        }
+
+        workoutViewModel.progress.observe(viewLifecycleOwner) { progress ->
+
+            binding.progressWorkout.progress = progress
+
+            binding.txtProgress.text = "$progress% completado"
+
+        }
+
+        workoutViewModel.workoutExercises.observe(viewLifecycleOwner) { workout ->
+
+            adapter.submitList(workout)
+
+            binding.btnFinishWorkout.isEnabled =
+                workoutViewModel.canFinishWorkout()
+
+        }
+
+
 
         binding.btnFinishWorkout.setOnClickListener {
 
             workoutViewModel.finishWorkout()
 
-            Toast.makeText(
-                requireContext(),
-                "Entrenamiento guardado correctamente 💪",
-                Toast.LENGTH_SHORT
+            Snackbar.make(
+
+                binding.root,
+
+                "🎉 Entrenamiento guardado correctamente",
+
+                Snackbar.LENGTH_LONG
+
             ).show()
 
         }
