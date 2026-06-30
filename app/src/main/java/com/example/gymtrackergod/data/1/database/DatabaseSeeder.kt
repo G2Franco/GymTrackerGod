@@ -17,12 +17,15 @@ object DatabaseSeeder {
             // Triceps
             Exercise(day = "Triceps", name = "Extension Triceps"),
             Exercise(day = "Triceps", name = "Extension Katana unilateral"),
+            Exercise(day = "Triceps", name = "Extension Katana Bilateral"),
             Exercise(day = "Triceps", name = "Press Frances"),
 
             // Hombro
             Exercise(day = "Hombro", name = "Press Militar"),
             Exercise(day = "Hombro", name = "Elevaciones Laterales Cuerda"),
             Exercise(day = "Hombro", name = "Elevaciones Laterales Mancuerna"),
+            Exercise(day = "Hombro", name = "Face Pull"),
+            Exercise(day = "Hombro", name = "Extension Laterales para Hombro Posterior"),
 
             // Espalda
             Exercise(day = "Espalda", name = "Jalon al Pecho"),
@@ -34,6 +37,7 @@ object DatabaseSeeder {
             Exercise(day = "Biceps", name = "Curl Biceps"),
             Exercise(day = "Biceps", name = "Curl Biceps Martillo"),
             Exercise(day = "Biceps", name = "Curl Biceps con Barra Z"),
+            Exercise(day = "Biceps", name = "Curl Biceps Predicador"),
 
             // Pierna
             Exercise(day = "Pierna", name = "Extension Cuadriceps"),
