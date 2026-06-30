@@ -113,9 +113,41 @@ class WorkoutExerciseCard @JvmOverloads constructor(
             binding.btnAddSet.isEnabled = true
 
         }
-        binding.txtLastWorkout.text =
-            workoutExercise.history.lastWorkout
-        
+        binding.txtLastWorkout.text = buildString {
+
+            append("Último: ")
+
+            append(workoutExercise.history.lastWorkout)
+
+            if (workoutExercise.history.personalRecord > 0f) {
+
+                append("\n🏆 PR: ")
+
+                append(workoutExercise.history.personalRecord)
+
+                append(" kg")
+
+            }
+
+            if (workoutExercise.history.totalVolume > 0f) {
+
+                append("\n📊 Volumen: ")
+
+                append(workoutExercise.history.totalVolume)
+
+                append(" kg")
+
+            }
+
+            if (workoutExercise.history.totalSets > 0) {
+
+                append("\n💪 Series: ")
+
+                append(workoutExercise.history.totalSets)
+
+            }
+
+        }
     }
 
     private fun addSetView(

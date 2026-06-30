@@ -4,6 +4,7 @@ import com.example.gymtrackergod.data.`1`.dao.WorkoutSessionDao
 import com.example.gymtrackergod.data.`1`.dao.WorkoutSetDao
 import com.example.gymtrackergod.data.`1`.entity.WorkoutSession
 import com.example.gymtrackergod.data.`1`.entity.WorkoutSet
+import com.example.gymtrackergod.ui.model.ExerciseHistory
 import com.example.gymtrackergod.ui.model.WorkoutExercise
 
 
@@ -50,6 +51,48 @@ class WorkoutRepository(
             }
 
         }
+
+    }
+
+    suspend fun getHistory(
+        exerciseId: Int
+    ): ExerciseHistory {
+
+        val last =
+            setDao.getLastSet(exerciseId)
+
+        val pr =
+            setDao.getPr(exerciseId) ?: 0f
+
+        val volume =
+            setDao.getTotalVolume(exerciseId) ?: 0f
+
+        val totalSets =
+            setDao.getTotalSets(exerciseId)
+
+        val lastWorkout =
+
+            if (last == null) {
+
+                "Sin historial"
+
+            } else {
+
+                "${last.weight} kg x ${last.reps}"
+
+            }
+
+        return ExerciseHistory(
+
+            lastWorkout = lastWorkout,
+
+            personalRecord = pr,
+
+            totalVolume = volume,
+
+            totalSets = totalSets
+
+        )
 
     }
 

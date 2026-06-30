@@ -11,6 +11,6 @@ data class WorkoutExercise(
 
     val saved: Boolean = false,
 
-    val history: ExerciseHistoryUi = ExerciseHistoryUi()
+    val history: ExerciseHistory = ExerciseHistory()
 
-)
+    )

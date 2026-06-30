@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gymtrackergod.adapter.WorkoutAdapter
 import com.example.gymtrackergod.data.`1`.database.AppDatabase
@@ -15,6 +16,7 @@ import com.example.gymtrackergod.data.`1`.repository.WorkoutRepository
 import com.example.gymtrackergod.databinding.FragmentWorkoutBinding
 import com.example.gymtrackergod.viewmodel.WorkoutViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 
 
 class WorkoutFragment : Fragment() {
@@ -51,6 +53,22 @@ class WorkoutFragment : Fragment() {
         workoutViewModel.setRepository(repository)
 
 
+        lifecycleScope.launch {
+
+            workoutViewModel.workoutExercises.value?.forEach { workout ->
+
+                val history = repository.getHistory(
+                    workout.exercise.id
+                )
+
+                workoutViewModel.refreshExercise(
+                    workout.exercise.id,
+                    history
+                )
+
+            }
+
+        }
 
         adapter = WorkoutAdapter(
 
@@ -154,6 +172,7 @@ class WorkoutFragment : Fragment() {
         return binding.root
 
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

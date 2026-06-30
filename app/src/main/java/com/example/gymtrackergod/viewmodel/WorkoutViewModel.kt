@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.gymtrackergod.data.`1`.entity.Exercise
 import com.example.gymtrackergod.data.`1`.entity.WorkoutSession
 import com.example.gymtrackergod.data.`1`.repository.WorkoutRepository
+import com.example.gymtrackergod.ui.model.ExerciseHistory
 import com.example.gymtrackergod.ui.model.ExerciseSelection
 import com.example.gymtrackergod.ui.model.Muscle
 import com.example.gymtrackergod.ui.model.WorkoutExercise
@@ -371,6 +372,29 @@ class WorkoutViewModel : ViewModel() {
 
     }
 
+    fun refreshExercise(
+        exerciseId: Int,
+        history: ExerciseHistory
+    ) {
+
+        _workoutExercises.value =
+            _workoutExercises.value?.map {
+
+                if (it.exercise.id == exerciseId) {
+
+                    it.copy(
+                        history = history
+                    )
+
+                } else {
+
+                    it
+
+                }
+
+            }
+
+    }
 
 
 }
